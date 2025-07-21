@@ -55,7 +55,7 @@ class _ChatItemState extends State<ChatItem> {
                         Text(
                           '${widget.chat.name}:',
                           overflow: TextOverflow.ellipsis,
-                          style: context.appTextTheme.bodyMedium,
+                          style: context.appPoppinsTextTheme.bodyMedium,
                         ),
                         Flexible(
                           child: Text(

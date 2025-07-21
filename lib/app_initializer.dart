@@ -29,23 +29,23 @@ class AppInitializer {
   static Future<void> _initializeBasics() async {
     WidgetsFlutterBinding.ensureInitialized();
 
-    AppThemeManager.initialize(brightness: Brightness.dark);
+    AppThemeManager.initialize(brightness: Brightness.light);
   }
 
   static Future<void> _initializeServices() async {
-    // final objectBoxPath = await ObjectBox.getDatabasePath();
-    // debugPrint('Путь к базе данных: $objectBoxPath');
-    //
-    // final directory = Directory(objectBoxPath); // раскомментировать при ошибке с регистрацией GetIt
-    // if (directory.existsSync()) {
-    //   directory.deleteSync(recursive: true);
-    //   debugPrint('Старая база ObjectBox удалена');
-    // }
-    //
-    // if (GetIt.I.isRegistered<ObjectBox>()) {
-    //   GetIt.I.unregister<ObjectBox>();
-    //   debugPrint('Старый экземпляр ObjectBox удалён из GetIt'); // раскомментировать при ошибке с регистрацией GetIt
-    // }
+    final objectBoxPath = await ObjectBox.getDatabasePath();
+    debugPrint('Путь к базе данных: $objectBoxPath');
+
+    final directory = Directory(objectBoxPath); // раскомментировать при ошибке с регистрацией GetIt
+    if (directory.existsSync()) {
+      directory.deleteSync(recursive: true);
+      debugPrint('Старая база ObjectBox удалена');
+    }
+
+    if (GetIt.I.isRegistered<ObjectBox>()) {
+      GetIt.I.unregister<ObjectBox>();
+      debugPrint('Старый экземпляр ObjectBox удалён из GetIt'); // раскомментировать при ошибке с регистрацией GetIt
+    }
     final talker = TalkerFlutter.init();
     final talkerLogger = TalkerLogger(
       formatter: const ColoredLoggerFormatter(),

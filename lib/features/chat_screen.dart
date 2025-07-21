@@ -12,14 +12,14 @@ import 'package:provider/provider.dart';
 import 'widgets/widgets.dart';
 
 @RoutePage()
-class DialogScreen extends StatefulWidget {
-  const DialogScreen({super.key});
+class ChatScreen extends StatefulWidget {
+  const ChatScreen({super.key});
 
   @override
-  State<DialogScreen> createState() => _DialogScreenState();
+  State<ChatScreen> createState() => _ChatScreenState();
 }
 
-class _DialogScreenState extends State<DialogScreen> {
+class _ChatScreenState extends State<ChatScreen> {
   final promptController = TextEditingController();
 
   @override
@@ -42,7 +42,7 @@ class _DialogScreenState extends State<DialogScreen> {
   }
 
   @override
-  void didUpdateWidget(covariant DialogScreen oldWidget) {
+  void didUpdateWidget(covariant ChatScreen oldWidget) {
     SystemChrome.setEnabledSystemUIMode(
       SystemUiMode.edgeToEdge,
     );
@@ -139,7 +139,7 @@ class _DialogScreenState extends State<DialogScreen> {
                               ? 'Загрузка...'
                               : ''
                           : state.chatName,
-                      style: context.appTextTheme.titleMedium,
+                      style: context.appPoppinsTextTheme.titleMedium,
                     ),
                   ),
                 ),

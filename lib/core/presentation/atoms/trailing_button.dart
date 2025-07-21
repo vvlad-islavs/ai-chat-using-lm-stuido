@@ -83,7 +83,7 @@ class TrailingButton extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 8),
                   child: Text(
                     labelText,
-                    style: context.appTextTheme.labelMedium!.copyWith(color: context.appColors.secondary.shade400),
+                    style: context.appPoppinsTextTheme.labelMedium!.copyWith(color: context.appColors.secondary.shade400),
                   ),
                 ),
             ],

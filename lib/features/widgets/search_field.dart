@@ -38,11 +38,11 @@ class SearchField extends StatelessWidget {
                   enabled: !isLoading,
                   minLines: 1,
                   maxLines: 1,
-                  style: context.appTextTheme.labelMedium?.copyWith(color: context.appColors.secondary[25]),
+                  style: context.appPoppinsTextTheme.labelMedium?.copyWith(color: context.appColors.secondary[25]),
                   decoration: InputDecoration(
-                    hintStyle: context.appTextTheme.labelMedium?.copyWith(color: context.appColors.secondary[50]),
+                    hintStyle: context.appPoppinsTextTheme.labelMedium?.copyWith(color: context.appColors.secondary[50]),
                     hintText: 'Ввести новый запрос...',
-                    labelStyle: context.appTextTheme.titleMedium?.copyWith(color: context.appColors.secondary[50]),
+                    labelStyle: context.appPoppinsTextTheme.titleMedium?.copyWith(color: context.appColors.secondary[50]),
                     border: InputBorder.none,
                   ),
                   onSubmitted: (text) async {

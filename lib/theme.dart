@@ -2,7 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
-const robotoFontFamily = 'Roboto';
+const poppinsFontFamily = 'Poppins';
+const urbanistFontFamily = 'Urbanist';
 
 enum ThemeStyle {
   dark(name: 'Темная тема'),
@@ -25,12 +26,24 @@ enum ThemeStyle {
   static ThemeStyle fromBrightness(Brightness brightness) => ThemeStyle.values[brightness.index];
 }
 
+//
+//
+// Расширение темы для доступа в context, обновляется реактивно.
+//
+//
 extension AppThemeContext on BuildContext {
   /// Текущая тема приложения, обновляется реактивно.
   ThemeData get appTheme => Theme.of(this);
 
-  /// Текущая тема текста приложения, обновляется реактивно.
-  TextTheme get appTextTheme => Theme.of(this).textTheme;
+  /// Текущая тема текста приложения со шрифтом 'Poppins'.
+  ///
+  /// Обновляется реактивно.
+  TextTheme get appPoppinsTextTheme => Theme.of(this).extension<_AppPoppinsExtension>()!.textTheme;
+
+  /// Текущая тема текста приложения со шрифтом 'Urbanist'.
+  ///
+  /// Обновляется реактивно.
+  TextTheme get appUrbanistTextTheme => Theme.of(this).extension<_AppUrbanistExtension>()!.textTheme;
 
   /// Текущая тема скроллбара приложения, обновляется реактивно.
   ScrollbarThemeData get appScrollbarTheme => Theme.of(this).scrollbarTheme;
@@ -41,6 +54,11 @@ extension AppThemeContext on BuildContext {
 
 final appThemeManager = AppThemeManager.instance;
 
+//
+//
+// Менеджер темы для доступа вне context, не обновляется реактивно.
+//
+//
 class AppThemeManager extends ChangeNotifier {
   static late final AppThemeManager _instance;
   ThemeStyle _style = ThemeStyle.dark;
@@ -63,10 +81,15 @@ class AppThemeManager extends ChangeNotifier {
   /// Для использования вне context, не обновляется реактивно.
   ThemeData get appTheme => _style.theme;
 
-  /// Текущая тема текста приложения.
+  /// Текущая тема текста приложения со шрифтом 'Poppins'.
   ///
   /// Для использования вне context, не обновляется реактивно.
-  TextTheme get appTextTheme => _style.theme.textTheme;
+  TextTheme get appPoppinsTextTheme => _style.theme.extension<_AppPoppinsExtension>()!.textTheme;
+
+  /// Текущая тема текста приложения со шрифтом 'Urbanist'.
+  ///
+  /// Для использования вне context, не обновляется реактивно.
+  TextTheme get appUrbanistTextTheme => _style.theme.extension<_AppUrbanistExtension>()!.textTheme;
 
   /// Текущая тема скроллбара приложения.
   ///
@@ -92,13 +115,19 @@ class AppThemeManager extends ChangeNotifier {
   }
 }
 
+//
+//
+// Темная тема приложения
+//
+//
 /// Main dark theme.
 final _darkTheme = ThemeData(
   scaffoldBackgroundColor: _AppColors.backgroundBaseDark,
   useMaterial3: true,
-  textTheme: _appTextTheme,
   scrollbarTheme: _appsScrollbarTheme,
-  extensions: <ThemeExtension<_AppColorsExtension>>[
+  extensions: <ThemeExtension<dynamic>>[
+    _AppPoppinsExtension(textTheme: _poppinsTextTheme),
+    _AppUrbanistExtension(textTheme: _urbanistTextTheme),
     const _AppColorsExtension(
       /// Цвет выделенной границы контейнера.
       enabledBorder: _AppColors.enabledBorder,
@@ -107,10 +136,19 @@ final _darkTheme = ThemeData(
       disabledBorder: _AppColors.disabledBorder,
 
       /// Цвет scaffold темной темы.
-      backgroundBaseDark: _AppColors.backgroundBaseDark,
+      backgroundBase: _AppColors.backgroundBaseDark,
 
       /// Цвет второстепенного фона темной темы, немного ярче чем scaffold и уходит немного в синие тона.
-      backgroundSurfaceDark: _AppColors.backgroundSurfaceDark,
+      backgroundSurface: _AppColors.backgroundSurfaceDark,
+
+      contrastComponentsColor: _AppColors.lightComponentsColor,
+      componentsColor: _AppColors.backgroundSurfaceDark,
+      secondaryButtonBackground: _AppColors.lightSecondaryButtonBackground,
+      secondaryButtonText: _AppColors.lightSecondaryButtonText,
+      logInShadow: _AppColors.lightLogInShadow,
+      neutrals2Color: _AppColors.lightNeutrals2,
+      neutrals5Color: _AppColors.lightNeutrals5,
+      neutrals6Color: _AppColors.lightNeutrals6,
 
       /// Главная цветовая палитра приложения (синие тона)
       primary: MaterialColor(
@@ -151,34 +189,48 @@ final _darkTheme = ThemeData(
   ],
 );
 
+//
+//
+// Светлая тема приложения
+//
+//
 /// Main light theme.
 final _lightTheme = ThemeData(
-  scaffoldBackgroundColor: _AppColors.grayAlias.shade300,
+  scaffoldBackgroundColor: _AppColors.backgroundBaseLight,
   useMaterial3: true,
-  textTheme: _appTextTheme,
   scrollbarTheme: _appsScrollbarTheme,
-  extensions: <ThemeExtension<_AppColorsExtension>>[
-    _AppColorsExtension(
+  extensions: <ThemeExtension<dynamic>>[
+    _AppPoppinsExtension(textTheme: _poppinsTextTheme),
+    _AppUrbanistExtension(textTheme: _urbanistTextTheme),
+    const _AppColorsExtension(
       enabledBorder: _AppColors.enabledBorder,
       disabledBorder: _AppColors.disabledBorder,
-      backgroundBaseDark: _AppColors.backgroundBaseDark,
-      backgroundSurfaceDark: _AppColors.backgroundSurfaceDark,
+      backgroundBase: _AppColors.backgroundBaseLight,
+      backgroundSurface: _AppColors.backgroundSurfaceDark,
+      contrastComponentsColor: _AppColors.lightContrastComponentsColor,
+      componentsColor: _AppColors.lightComponentsColor,
+      secondaryButtonBackground: _AppColors.lightSecondaryButtonBackground,
+      secondaryButtonText: _AppColors.lightSecondaryButtonText,
+      logInShadow: _AppColors.lightLogInShadow,
+      neutrals2Color: _AppColors.lightNeutrals2,
+      neutrals5Color: _AppColors.lightNeutrals5,
+      neutrals6Color: _AppColors.lightNeutrals6,
 
       /// Главная цветовая палитра приложения
-      primary: const MaterialColor(
-        0xff714CDE,
+      primary: MaterialColor(
+        0xff4375FF,
         <int, Color>{
-          25: Color(0xffF8F5FD),
-          50: Color(0xffF1ECFC),
-          100: Color(0xffE3D9F8),
-          200: Color(0xffC6B3F2),
-          300: Color(0xffAA8EEB),
-          400: Color(0xff8D68E5),
-          500: Color(0xff714CDE),
-          600: Color(0xff5A3DB2),
-          700: Color(0xff442885),
-          800: Color(0xff2D1A59),
-          900: Color(0xff170D2C),
+          25: Color(0xffF6F8FF),
+          50: Color(0xffECF1FF),
+          100: Color(0xffD9E3FF),
+          200: Color(0xffB4C8FF),
+          300: Color(0xff8EACFF),
+          400: Color(0xff6991FF),
+          500: Color(0xff4375FF),
+          600: Color(0xff365ECC),
+          700: Color(0xff284699),
+          800: Color(0xff1B2F66),
+          900: Color(0xff0D1733),
         },
       ),
 
@@ -203,6 +255,11 @@ final _lightTheme = ThemeData(
   ],
 );
 
+//
+//
+// Параметры скроллбара приложения
+//
+//
 final _appsScrollbarTheme = ScrollbarThemeData(
   thumbColor: WidgetStateProperty.all(_AppColors.grayAlias.shade400),
   thickness: WidgetStateProperty.all(8),
@@ -213,118 +270,334 @@ final _appsScrollbarTheme = ScrollbarThemeData(
   crossAxisMargin: 4,
 );
 
-final _appTextTheme = const TextTheme(
+//
+//
+// Параметры текста со шрифтом Poppins
+//
+//
+final _poppinsTextTheme = const TextTheme(
   headlineLarge: TextStyle(
     fontSize: 32,
-    fontFamily: robotoFontFamily,
-    color: _AppColors.white,
+    fontFamily: poppinsFontFamily,
+    color: _AppColors.darkTextColor,
     fontWeight: FontWeight.w600,
     height: 1.25,
+    letterSpacing: 0,
   ),
   headlineMedium: TextStyle(
     fontSize: 28,
-    fontFamily: robotoFontFamily,
-    color: _AppColors.white,
+    fontFamily: poppinsFontFamily,
+    color: _AppColors.darkTextColor,
     fontWeight: FontWeight.w600,
     height: 1.29,
+    letterSpacing: 0,
   ),
+
+  /// bold 34 headlineSmall
   headlineSmall: TextStyle(
-    fontSize: 24,
-    fontFamily: robotoFontFamily,
-    color: _AppColors.white,
-    fontWeight: FontWeight.w600,
+    fontSize: 34,
+    fontFamily: poppinsFontFamily,
+    color: _AppColors.darkTextColor,
+    fontWeight: FontWeight.w700,
     height: 1.29,
+    letterSpacing: 0,
   ),
   titleLarge: TextStyle(
     fontSize: 20,
-    fontFamily: robotoFontFamily,
-    color: _AppColors.white,
+    fontFamily: poppinsFontFamily,
+    color: _AppColors.darkTextColor,
     fontWeight: FontWeight.w500,
     height: 1.40,
+    letterSpacing: 0,
   ),
+
+  /// semiBold 20 titleMedium
   titleMedium: TextStyle(
-    fontSize: 18,
-    fontFamily: robotoFontFamily,
-    color: _AppColors.white,
-    fontWeight: FontWeight.w500,
+    fontSize: 20,
+    fontFamily: poppinsFontFamily,
+    color: _AppColors.darkTextColor,
+    fontWeight: FontWeight.w600,
     height: 1.33,
-    letterSpacing: 0.16,
+    letterSpacing: 0,
   ),
   titleSmall: TextStyle(
     fontSize: 16,
-    fontFamily: robotoFontFamily,
-    color: _AppColors.white,
-    fontWeight: FontWeight.w500,
+    fontFamily: poppinsFontFamily,
+    color: _AppColors.darkTextColor,
+    fontWeight: FontWeight.w600,
     height: 1.25,
-    letterSpacing: 0.10,
+    letterSpacing: 0,
   ),
   labelLarge: TextStyle(
     fontSize: 16,
-    fontFamily: robotoFontFamily,
-    color: _AppColors.white,
+    fontFamily: poppinsFontFamily,
+    color: _AppColors.darkTextColor,
     fontWeight: FontWeight.w500,
     height: 1.50,
-    letterSpacing: 0.40,
+    letterSpacing: 0,
   ),
+
+  /// SemiBold 16 labelMedium
   labelMedium: TextStyle(
-    fontSize: 14,
-    fontFamily: robotoFontFamily,
-    color: _AppColors.white,
-    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    fontFamily: poppinsFontFamily,
+    color: _AppColors.darkTextColor,
+    fontWeight: FontWeight.w600,
     height: 1.43,
-    letterSpacing: 0.10,
+    letterSpacing: 0,
   ),
+
+  /// medium 14 labelSmall
   labelSmall: TextStyle(
-    fontSize: 12,
-    fontFamily: robotoFontFamily,
-    color: _AppColors.white,
+    fontSize: 14,
+    fontFamily: poppinsFontFamily,
+    color: _AppColors.darkTextColor,
     fontWeight: FontWeight.w500,
     height: 1.33,
-    letterSpacing: 0.40,
+    letterSpacing: 0,
   ),
   bodyLarge: TextStyle(
     fontSize: 16,
-    fontFamily: robotoFontFamily,
-    color: _AppColors.white,
+    fontFamily: poppinsFontFamily,
+    color: _AppColors.darkTextColor,
     fontWeight: FontWeight.w400,
     height: 1.50,
-    letterSpacing: 0.30,
+    letterSpacing: 0,
   ),
+
+  /// Regular 14 bodyMedium
   bodyMedium: TextStyle(
     fontSize: 14,
-    fontFamily: robotoFontFamily,
-    color: _AppColors.white,
+    fontFamily: poppinsFontFamily,
+    color: _AppColors.darkTextColor,
     fontWeight: FontWeight.w400,
     height: 1.43,
-    letterSpacing: 0.24,
+    letterSpacing: 0,
   ),
+
+  /// Light 14 bodySmall
   bodySmall: TextStyle(
     fontSize: 12,
-    fontFamily: robotoFontFamily,
-    color: _AppColors.white,
-    fontWeight: FontWeight.w400,
+    fontFamily: poppinsFontFamily,
+    color: _AppColors.darkTextColor,
+    fontWeight: FontWeight.w300,
     height: 1.33,
-    letterSpacing: 0.40,
+    letterSpacing: 0,
   ),
 );
 
+//
+//
+// Параметры текста со шрифтом Urbanist
+//
+//
+final _urbanistTextTheme = const TextTheme(
+  headlineLarge: TextStyle(
+    fontSize: 32,
+    fontFamily: urbanistFontFamily,
+    color: _AppColors.darkTextColor,
+    fontWeight: FontWeight.w600,
+    height: 1.25,
+    letterSpacing: 0,
+  ),
+  headlineMedium: TextStyle(
+    fontSize: 28,
+    fontFamily: urbanistFontFamily,
+    color: _AppColors.darkTextColor,
+    fontWeight: FontWeight.w600,
+    height: 1.29,
+    letterSpacing: 0,
+  ),
+
+  /// bold 34 headlineSmall
+  headlineSmall: TextStyle(
+    fontSize: 34,
+    fontFamily: urbanistFontFamily,
+    color: _AppColors.darkTextColor,
+    fontWeight: FontWeight.w700,
+    height: 1.29,
+    letterSpacing: 0,
+  ),
+  titleLarge: TextStyle(
+    fontSize: 20,
+    fontFamily: urbanistFontFamily,
+    color: _AppColors.darkTextColor,
+    fontWeight: FontWeight.w500,
+    height: 1.40,
+    letterSpacing: 0,
+  ),
+
+  /// semiBold 20 titleMedium
+  titleMedium: TextStyle(
+    fontSize: 20,
+    fontFamily: urbanistFontFamily,
+    color: _AppColors.darkTextColor,
+    fontWeight: FontWeight.w600,
+    height: 1.33,
+    letterSpacing: 0,
+  ),
+  titleSmall: TextStyle(
+    fontSize: 16,
+    fontFamily: urbanistFontFamily,
+    color: _AppColors.darkTextColor,
+    fontWeight: FontWeight.w600,
+    height: 1.25,
+    letterSpacing: 0,
+  ),
+  labelLarge: TextStyle(
+    fontSize: 16,
+    fontFamily: urbanistFontFamily,
+    color: _AppColors.darkTextColor,
+    fontWeight: FontWeight.w500,
+    height: 1.50,
+    letterSpacing: 0,
+  ),
+
+  /// SemiBold 16 labelMedium
+  labelMedium: TextStyle(
+    fontSize: 16,
+    fontFamily: urbanistFontFamily,
+    color: _AppColors.darkTextColor,
+    fontWeight: FontWeight.w600,
+    height: 1.43,
+    letterSpacing: 0,
+  ),
+
+  /// medium 14 labelSmall
+  labelSmall: TextStyle(
+    fontSize: 14,
+    fontFamily: urbanistFontFamily,
+    color: _AppColors.darkTextColor,
+    fontWeight: FontWeight.w500,
+    height: 1.33,
+    letterSpacing: 0,
+  ),
+  bodyLarge: TextStyle(
+    fontSize: 16,
+    fontFamily: urbanistFontFamily,
+    color: _AppColors.darkTextColor,
+    fontWeight: FontWeight.w400,
+    height: 1.50,
+    letterSpacing: 0,
+  ),
+
+  /// Regular 14 bodyMedium
+  bodyMedium: TextStyle(
+    fontSize: 14,
+    fontFamily: urbanistFontFamily,
+    color: _AppColors.darkTextColor,
+    fontWeight: FontWeight.w400,
+    height: 1.43,
+    letterSpacing: 0,
+  ),
+
+  /// Light 14 bodySmall
+  bodySmall: TextStyle(
+    fontSize: 12,
+    fontFamily: urbanistFontFamily,
+    color: _AppColors.darkTextColor,
+    fontWeight: FontWeight.w300,
+    height: 1.33,
+    letterSpacing: 0,
+  ),
+);
+
+//
+//
+//Расширение текста Urbanist для ThemeData
+//
+//
+class _AppPoppinsExtension extends ThemeExtension<_AppPoppinsExtension> {
+  const _AppPoppinsExtension({
+    required this.textTheme,
+  });
+
+  final TextTheme textTheme;
+
+  @override
+  ThemeExtension<_AppPoppinsExtension> copyWith({TextTheme? textTheme}) => _AppPoppinsExtension(
+        textTheme: textTheme ?? this.textTheme,
+      );
+
+  @override
+  ThemeExtension<_AppPoppinsExtension> lerp(covariant ThemeExtension<_AppPoppinsExtension>? other, double t) {
+    if (other is! _AppPoppinsExtension) {
+      return this;
+    }
+
+    return _AppPoppinsExtension(textTheme: TextTheme.lerp(textTheme, other.textTheme, t));
+  }
+}
+
+//
+//
+//Расширение текста Poppins для ThemeData
+//
+//
+class _AppUrbanistExtension extends ThemeExtension<_AppUrbanistExtension> {
+  const _AppUrbanistExtension({
+    required this.textTheme,
+  });
+
+  final TextTheme textTheme;
+
+  @override
+  ThemeExtension<_AppUrbanistExtension> copyWith({TextTheme? textTheme}) => _AppUrbanistExtension(
+        textTheme: textTheme ?? this.textTheme,
+      );
+
+  @override
+  ThemeExtension<_AppUrbanistExtension> lerp(covariant ThemeExtension<_AppUrbanistExtension>? other, double t) {
+    if (other is! _AppUrbanistExtension) {
+      return this;
+    }
+
+    return _AppUrbanistExtension(textTheme: TextTheme.lerp(textTheme, other.textTheme, t));
+  }
+}
+
+//
+//
+// Расширениe цветов для ThemeData
+//
+//
 class _AppColorsExtension extends ThemeExtension<_AppColorsExtension> {
   const _AppColorsExtension({
     required this.enabledBorder,
     required this.disabledBorder,
-    required this.backgroundBaseDark,
-    required this.backgroundSurfaceDark,
+    required this.backgroundBase,
+    required this.backgroundSurface,
+    required this.contrastComponentsColor,
+    required this.componentsColor,
+    required this.secondaryButtonBackground,
+    required this.secondaryButtonText,
+    required this.logInShadow,
+    required this.neutrals2Color,
+    required this.neutrals5Color,
+    required this.neutrals6Color,
     required this.primary,
     required this.secondary,
   })  : transparent = _AppColors.transparent,
-        white = _AppColors.white;
+        white = _AppColors.white,
+        googleLogIn = _AppColors.googleLogIn,
+        facebookLogIn = _AppColors.facebookLogIn;
 
   final Color transparent;
   final Color white;
+  final Color googleLogIn;
+  final Color facebookLogIn;
   final Color enabledBorder;
   final Color disabledBorder;
-  final Color backgroundBaseDark;
-  final Color backgroundSurfaceDark;
+  final Color backgroundBase;
+  final Color contrastComponentsColor;
+  final Color componentsColor;
+  final Color secondaryButtonBackground;
+  final Color secondaryButtonText;
+  final Color logInShadow;
+  final Color neutrals2Color;
+  final Color neutrals5Color;
+  final Color neutrals6Color;
+  final Color backgroundSurface;
 
   final MaterialColor primary;
   final MaterialColor secondary;
@@ -335,14 +608,30 @@ class _AppColorsExtension extends ThemeExtension<_AppColorsExtension> {
     Color? disabledBorder,
     Color? backgroundBaseDark,
     Color? backgroundSurfaceDark,
+    Color? contrastComponentsColor,
+    Color? componentsColor,
+    Color? secondaryButtonBackground,
+    Color? secondaryButtonText,
+    Color? logInShadow,
+    Color? neutrals2Color,
+    Color? neutrals5Color,
+    Color? neutrals6Color,
     MaterialColor? primary,
     MaterialColor? secondary,
   }) =>
       _AppColorsExtension(
         enabledBorder: enabledBorder ?? this.enabledBorder,
         disabledBorder: disabledBorder ?? this.disabledBorder,
-        backgroundBaseDark: backgroundBaseDark ?? this.backgroundBaseDark,
-        backgroundSurfaceDark: backgroundSurfaceDark ?? this.backgroundSurfaceDark,
+        backgroundBase: backgroundBaseDark ?? this.backgroundBase,
+        backgroundSurface: backgroundSurfaceDark ?? this.backgroundSurface,
+        contrastComponentsColor: contrastComponentsColor ?? this.contrastComponentsColor,
+        componentsColor: componentsColor ?? this.componentsColor,
+        secondaryButtonBackground: secondaryButtonBackground ?? this.secondaryButtonBackground,
+        secondaryButtonText: secondaryButtonText ?? this.secondaryButtonText,
+        logInShadow: logInShadow ?? this.logInShadow,
+        neutrals2Color: neutrals2Color ?? this.neutrals2Color,
+        neutrals5Color: neutrals5Color ?? this.neutrals5Color,
+        neutrals6Color: neutrals6Color ?? this.neutrals6Color,
         primary: primary ?? this.primary,
         secondary: secondary ?? this.secondary,
       );
@@ -356,8 +645,16 @@ class _AppColorsExtension extends ThemeExtension<_AppColorsExtension> {
     return _AppColorsExtension(
       enabledBorder: Color.lerp(enabledBorder, other.enabledBorder, t)!,
       disabledBorder: Color.lerp(disabledBorder, other.disabledBorder, t)!,
-      backgroundBaseDark: Color.lerp(backgroundBaseDark, other.backgroundBaseDark, t)!,
-      backgroundSurfaceDark: Color.lerp(backgroundSurfaceDark, other.backgroundSurfaceDark, t)!,
+      backgroundBase: Color.lerp(backgroundBase, other.backgroundBase, t)!,
+      backgroundSurface: Color.lerp(backgroundSurface, other.backgroundSurface, t)!,
+      contrastComponentsColor: Color.lerp(contrastComponentsColor, other.contrastComponentsColor, t)!,
+      componentsColor: Color.lerp(componentsColor, other.componentsColor, t)!,
+      secondaryButtonBackground: Color.lerp(secondaryButtonBackground, other.secondaryButtonBackground, t)!,
+      secondaryButtonText: Color.lerp(secondaryButtonText, other.secondaryButtonText, t)!,
+      logInShadow: Color.lerp(logInShadow, other.logInShadow, t)!,
+      neutrals2Color: Color.lerp(neutrals2Color, other.neutrals2Color, t)!,
+      neutrals5Color: Color.lerp(neutrals5Color, other.neutrals5Color, t)!,
+      neutrals6Color: Color.lerp(neutrals6Color, other.neutrals6Color, t)!,
       primary: _lerpMaterialColor(primary, other.primary, t),
       secondary: _lerpMaterialColor(secondary, other.secondary, t),
     );
@@ -379,6 +676,11 @@ class _AppColorsExtension extends ThemeExtension<_AppColorsExtension> {
   }
 }
 
+//
+//
+// Общий класс-коллекция для хранения всех цветов приложения.
+//
+//
 /// Приватный класс-коллекция цветов приложения.
 abstract final class _AppColors {
   static const transparent = Color(0x00000000);
@@ -504,6 +806,22 @@ abstract final class _AppColors {
 
   /// Стандартный белый цвет.
   static const white = Color(0xffffffff);
+  static const darkTextColor = Color(0xff121212);
+
+  static const lightContrastComponentsColor = Color(0xff141718);
+  static const lightComponentsColor = Color(0xffFCFCFD);
+
+  static const lightNeutrals2 = Color(0xff23262F);
+  static const lightNeutrals5 = Color(0xffB1B5C3);
+  static const lightNeutrals6 = Color(0xffE6E8EC);
+
+  static const lightSecondaryButtonBackground = Color(0xffE3E3E3);
+  static const lightSecondaryButtonText = Color(0xffB1B1B1);
+  static const lightLogInShadow = Color(0xff17CE92);
+
+  static const googleLogIn = Color(0xffD44638);
+  static const facebookLogIn = Color(0xff4267B2);
+
 
   /// Цвет выделенной границы контейнера.
   static const enabledBorder = Color(0xff4372b5);
@@ -513,6 +831,8 @@ abstract final class _AppColors {
 
   /// Цвет scaffold темной темы.
   static const backgroundBaseDark = Color(0xff06060a);
+
+  static const backgroundBaseLight = Color(0xffF7F8FA);
 
   /// Цвет второстепенного фона темной темы, немного ярче чем scaffold и уходит немного в синие тона.
   static const backgroundSurfaceDark = Color(0xff0d1318);

@@ -10,20 +10,39 @@
 part of 'auto_router.dart';
 
 /// generated route for
-/// [DialogScreen]
-class DialogRoute extends PageRouteInfo<void> {
-  const DialogRoute({List<PageRouteInfo>? children})
+/// [ChatScreen]
+class ChatRoute extends PageRouteInfo<void> {
+  const ChatRoute({List<PageRouteInfo>? children})
       : super(
-          DialogRoute.name,
+          ChatRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'DialogRoute';
+  static const String name = 'ChatRoute';
 
   static PageInfo page = PageInfo(
     name,
     builder: (data) {
-      return const DialogScreen();
+      return const ChatScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [HomeScreen]
+class HomeRoute extends PageRouteInfo<void> {
+  const HomeRoute({List<PageRouteInfo>? children})
+      : super(
+          HomeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'HomeRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const HomeScreen();
     },
   );
 }
@@ -43,6 +62,44 @@ class MainWrapperRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return const MainWrapperScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [WelcomePreviewScreen]
+class WelcomePreviewRoute extends PageRouteInfo<void> {
+  const WelcomePreviewRoute({List<PageRouteInfo>? children})
+      : super(
+          WelcomePreviewRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'WelcomePreviewRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const WelcomePreviewScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [WelcomeScreen]
+class WelcomeRoute extends PageRouteInfo<void> {
+  const WelcomeRoute({List<PageRouteInfo>? children})
+      : super(
+          WelcomeRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'WelcomeRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const WelcomeScreen();
     },
   );
 }
