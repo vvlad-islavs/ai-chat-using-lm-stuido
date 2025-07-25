@@ -37,11 +37,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 style: context.appUrbanistTextTheme.headlineSmall!.copyWith(fontSize: 40),
               ),
               const Gap(48),
-              CustomButton(
+              AppTextButton(
                 title: 'Log in',
                 titleFontSize: 18,
                 titleColor: context.appColors.white,
                 height: 62,
+                width: double.infinity,
                 borderRadius: 100,
                 backgroundColor: context.appColors.contrastComponentsColor,
                 borderColor: context.appColors.transparent,
@@ -52,11 +53,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 ],
                 onTap: () => AutoRouter.of(context).replaceAll([MainWrapperRoute()]),
               ),
-              CustomButton(
+              AppTextButton(
                 title: 'Sign up',
                 titleFontSize: 18,
                 titleColor: context.appColors.secondaryButtonText,
                 height: 60,
+                width: double.infinity,
                 borderRadius: 100,
                 backgroundColor: context.appColors.secondaryButtonBackground,
                 borderColor: context.appColors.transparent,
@@ -64,7 +66,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 onTap: () => AutoRouter.of(context).replaceAll([MainWrapperRoute()]),
               ),
               const Gap(32),
-              CustomButton(
+              AppTextButton(
                 title: 'Continue With Accounts',
                 backgroundColor: context.appColors.transparent,
                 borderColor: context.appColors.transparent,
@@ -77,11 +79,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 spacing: 12,
                 children: [
                   Expanded(
-                    child: CustomButton(
+                    child: AppTextButton(
                       title: 'Sign up',
                       titleFontSize: 18,
                       titleColor: context.appColors.googleLogIn,
                       height: 60,
+                      width: double.infinity,
                       borderRadius: 10,
                       backgroundColor: context.appColors.googleLogIn.withValues(alpha: 0.25),
                       borderColor: context.appColors.transparent,
@@ -90,11 +93,12 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     ),
                   ),
                   Expanded(
-                    child: CustomButton(
+                    child: AppTextButton(
                       title: 'Sign up',
                       titleFontSize: 18,
                       titleColor: context.appColors.facebookLogIn,
                       height: 60,
+                      width: double.infinity,
                       borderRadius: 10,
                       backgroundColor: context.appColors.facebookLogIn.withValues(alpha: 0.25),
                       borderColor: context.appColors.transparent,

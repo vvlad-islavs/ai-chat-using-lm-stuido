@@ -67,6 +67,25 @@ class MainWrapperRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [PagesWrapperScreen]
+class RoutesWrapperRoute extends PageRouteInfo<void> {
+  const RoutesWrapperRoute({List<PageRouteInfo>? children})
+      : super(
+          RoutesWrapperRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'RoutesWrapperRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const PagesWrapperScreen();
+    },
+  );
+}
+
+/// generated route for
 /// [WelcomePreviewScreen]
 class WelcomePreviewRoute extends PageRouteInfo<void> {
   const WelcomePreviewRoute({List<PageRouteInfo>? children})

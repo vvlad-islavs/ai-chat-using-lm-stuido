@@ -80,7 +80,7 @@ class _ChatItemState extends State<ChatItem> {
                             child: Center(
                               child: TrailingButton(
                                 iconColor: context.appColors.primary.shade800,
-                                iconPadding: 4,
+                                iconPadding: EdgeInsets.all(4),
                                 icon: AppIcons.xSvg,
                                 iconWidth: 16,
                                 onTap: widget.onRemoveTap,

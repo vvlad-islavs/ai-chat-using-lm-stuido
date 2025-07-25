@@ -14,21 +14,25 @@ class TrailingButton extends StatelessWidget {
     this.iconColor,
     this.labelText = '',
     this.bgBorderRadius = 0,
-    this.iconPadding = 8,
+    this.iconPadding,
     this.bgColor,
-    this.tapBorderRadius = 108,
+    this.highLightColor,
     this.hoverColor,
     this.shadowColor,
+    this.width,
+    this.height,
     this.onTap,
   });
 
   final Color? hoverColor;
   final Color? shadowColor;
+  final Color? highLightColor;
   final EdgeInsets padding;
   final Color? bgColor;
   final double bgBorderRadius;
-  final double tapBorderRadius;
-  final double iconPadding;
+  final double? width;
+  final double? height;
+  final EdgeInsets? iconPadding;
   final String icon;
   final Function()? onTap;
   final double iconWidth;
@@ -38,59 +42,64 @@ class TrailingButton extends StatelessWidget {
   final bool enableAnimation = !Platform.isAndroid && !Platform.isIOS;
 
   @override
-  Widget build(BuildContext context) => Container(
-    margin: margin,
-    color: context.appColors.transparent,
-    child: Material(
-      borderRadius: BorderRadius.circular(bgBorderRadius),
-      color: bgColor ?? context.appColors.transparent,
-      child: InkWell(
-        hoverDuration: Duration(milliseconds: enableAnimation ? 250 : 0),
-        onTap: onTap,
-        hoverColor: hoverColor,
-        borderRadius: BorderRadius.all(Radius.circular(tapBorderRadius)),
-        highlightColor: context.appColors.secondary.shade600,
-        splashColor: context.appColors.secondary.shade800,
-        child: Padding(
-          padding: padding,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Ink(
-                padding: EdgeInsets.all(iconPadding),
-                decoration: BoxDecoration(
-                  color: context.appColors.transparent,
-                  borderRadius: BorderRadius.circular(bgBorderRadius),
-                  boxShadow: [
-                    BoxShadow(
-                      color: shadowColor ??  context.appColors.transparent,
-                      blurRadius: 4,
-                      offset: const Offset(0, 4),
+  Widget build(BuildContext context) => Material(
+        color: context.appColors.transparent,
+        child: Container(
+          margin: margin,
+          color: context.appColors.transparent,
+          child: InkWell(
+            hoverDuration: Duration(milliseconds: enableAnimation ? 250 : 0),
+            onTap: onTap,
+            hoverColor: hoverColor,
+            borderRadius: BorderRadius.all(Radius.circular(bgBorderRadius)),
+            highlightColor: highLightColor ?? context.appColors.secondary.shade600,
+            child: Padding(
+              padding: padding,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Ink(
+                    height: height,
+                    width: width,
+                    padding: iconPadding ?? EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: bgColor,
+                      borderRadius: BorderRadius.circular(bgBorderRadius),
+                      boxShadow: [
+                        BoxShadow(
+                          color: shadowColor ?? context.appColors.transparent,
+                          blurRadius: 20,
+                          offset: const Offset(6, 8),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                child: SvgPicture.asset(
-                  icon,
-                  colorFilter: ColorFilter.mode(
-                    iconColor ?? context.appColors.secondary.shade400,
-                    BlendMode.srcIn,
+                    child: Center(
+                      child: SizedBox(
+                        width: iconWidth,
+                        height: iconWidth,
+                        child: SvgPicture.asset(
+                          icon,
+                          colorFilter: ColorFilter.mode(
+                            iconColor ?? context.appColors.secondary.shade400,
+                            BlendMode.srcIn,
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
-                  width: iconWidth,
-                ),
+                  if (labelText.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8),
+                      child: Text(
+                        labelText,
+                        style: context.appPoppinsTextTheme.labelMedium!
+                            .copyWith(color: context.appColors.secondary.shade400),
+                      ),
+                    ),
+                ],
               ),
-              if (labelText.isNotEmpty)
-                Padding(
-                  padding: const EdgeInsets.only(right: 8),
-                  child: Text(
-                    labelText,
-                    style: context.appPoppinsTextTheme.labelMedium!.copyWith(color: context.appColors.secondary.shade400),
-                  ),
-                ),
-            ],
+            ),
           ),
         ),
-      ),
-    ),
-  );
+      );
 }
-

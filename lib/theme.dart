@@ -146,6 +146,7 @@ final _darkTheme = ThemeData(
       secondaryButtonBackground: _AppColors.lightSecondaryButtonBackground,
       secondaryButtonText: _AppColors.lightSecondaryButtonText,
       logInShadow: _AppColors.lightLogInShadow,
+      neutrals1Color: _AppColors.lightNeutrals1,
       neutrals2Color: _AppColors.lightNeutrals2,
       neutrals5Color: _AppColors.lightNeutrals5,
       neutrals6Color: _AppColors.lightNeutrals6,
@@ -212,6 +213,7 @@ final _lightTheme = ThemeData(
       secondaryButtonBackground: _AppColors.lightSecondaryButtonBackground,
       secondaryButtonText: _AppColors.lightSecondaryButtonText,
       logInShadow: _AppColors.lightLogInShadow,
+      neutrals1Color: _AppColors.lightNeutrals1,
       neutrals2Color: _AppColors.lightNeutrals2,
       neutrals5Color: _AppColors.lightNeutrals5,
       neutrals6Color: _AppColors.lightNeutrals6,
@@ -572,6 +574,7 @@ class _AppColorsExtension extends ThemeExtension<_AppColorsExtension> {
     required this.secondaryButtonBackground,
     required this.secondaryButtonText,
     required this.logInShadow,
+    required this.neutrals1Color,
     required this.neutrals2Color,
     required this.neutrals5Color,
     required this.neutrals6Color,
@@ -594,6 +597,7 @@ class _AppColorsExtension extends ThemeExtension<_AppColorsExtension> {
   final Color secondaryButtonBackground;
   final Color secondaryButtonText;
   final Color logInShadow;
+  final Color neutrals1Color;
   final Color neutrals2Color;
   final Color neutrals5Color;
   final Color neutrals6Color;
@@ -613,6 +617,7 @@ class _AppColorsExtension extends ThemeExtension<_AppColorsExtension> {
     Color? secondaryButtonBackground,
     Color? secondaryButtonText,
     Color? logInShadow,
+    Color? neutrals1Color,
     Color? neutrals2Color,
     Color? neutrals5Color,
     Color? neutrals6Color,
@@ -629,6 +634,7 @@ class _AppColorsExtension extends ThemeExtension<_AppColorsExtension> {
         secondaryButtonBackground: secondaryButtonBackground ?? this.secondaryButtonBackground,
         secondaryButtonText: secondaryButtonText ?? this.secondaryButtonText,
         logInShadow: logInShadow ?? this.logInShadow,
+        neutrals1Color: neutrals1Color ?? this.neutrals1Color,
         neutrals2Color: neutrals2Color ?? this.neutrals2Color,
         neutrals5Color: neutrals5Color ?? this.neutrals5Color,
         neutrals6Color: neutrals6Color ?? this.neutrals6Color,
@@ -652,6 +658,7 @@ class _AppColorsExtension extends ThemeExtension<_AppColorsExtension> {
       secondaryButtonBackground: Color.lerp(secondaryButtonBackground, other.secondaryButtonBackground, t)!,
       secondaryButtonText: Color.lerp(secondaryButtonText, other.secondaryButtonText, t)!,
       logInShadow: Color.lerp(logInShadow, other.logInShadow, t)!,
+      neutrals1Color: Color.lerp(neutrals1Color, other.neutrals1Color, t)!,
       neutrals2Color: Color.lerp(neutrals2Color, other.neutrals2Color, t)!,
       neutrals5Color: Color.lerp(neutrals5Color, other.neutrals5Color, t)!,
       neutrals6Color: Color.lerp(neutrals6Color, other.neutrals6Color, t)!,
@@ -811,6 +818,7 @@ abstract final class _AppColors {
   static const lightContrastComponentsColor = Color(0xff141718);
   static const lightComponentsColor = Color(0xffFCFCFD);
 
+  static const lightNeutrals1 = Color(0xff141416);
   static const lightNeutrals2 = Color(0xff23262F);
   static const lightNeutrals5 = Color(0xffB1B5C3);
   static const lightNeutrals6 = Color(0xffE6E8EC);
@@ -821,7 +829,6 @@ abstract final class _AppColors {
 
   static const googleLogIn = Color(0xffD44638);
   static const facebookLogIn = Color(0xff4267B2);
-
 
   /// Цвет выделенной границы контейнера.
   static const enabledBorder = Color(0xff4372b5);

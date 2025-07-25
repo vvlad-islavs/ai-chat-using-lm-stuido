@@ -38,19 +38,26 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ],
             ),
+            const Gap(12),
+            Text(
+              'Start chatting with ChattyAI now.\nYou can ask me anything.',
+              textAlign: TextAlign.center,
+              style: context.appUrbanistTextTheme.bodyMedium!.copyWith(fontSize: 18),
+            ),
             Spacer(
               flex: 2,
             ),
-            CustomButton(
+            AppTextButton(
               title: 'Get Started',
               titleFontSize: 15,
               titleColor: context.appColors.white,
               height: 62,
+              width: double.infinity,
               borderRadius: 16,
               backgroundColor: context.appColors.contrastComponentsColor,
               borderColor: context.appColors.transparent,
               margin: EdgeInsets.symmetric(horizontal: 40),
-              onTap: () => AutoRouter.of(context).replaceAll([MainWrapperRoute()]),
+              onTap: () => AutoRouter.of(context).push(ChatRoute()),
             ),
             Spacer(),
           ],

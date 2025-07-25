@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:image_generate/core/core.dart';
-import 'package:image_generate/features/widgets/widgets.dart';
+import 'package:image_generate/features/features.dart';
 import 'package:image_generate/theme.dart';
 
 class LeftSideMenu extends StatelessWidget {
@@ -84,7 +84,7 @@ class LeftSideMenu extends StatelessWidget {
                                     itemCount: state.chats.length + 1,
                                     itemBuilder: (context, index) {
                                       if (index == state.chats.length) {
-                                        return CustomButton(
+                                        return AppTextButton(
                                             title: 'Новый чат',
                                             onTap: () {
                                               context.read<AiInteractionBloc>().add(AiInteractionCreateChatEvent());

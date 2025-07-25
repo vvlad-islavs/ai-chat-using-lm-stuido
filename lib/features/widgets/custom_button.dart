@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:image_generate/objectbox.g.dart';
 import 'package:image_generate/theme.dart';
 
-class CustomButton extends StatelessWidget {
-  const CustomButton({
+class AppTextButton extends StatelessWidget {
+  const AppTextButton({
     super.key,
     required this.title,
     required this.onTap,
@@ -17,6 +17,8 @@ class CustomButton extends StatelessWidget {
     this.height,
     this.width,
     this.shadow,
+    this.prefixIcon,
+    this.borderWidth = 1,
   });
 
   final String title;
@@ -28,8 +30,10 @@ class CustomButton extends StatelessWidget {
   final EdgeInsets? padding;
   final double? height;
   final double? width;
+  final double borderWidth;
   final EdgeInsets? margin;
   final List<BoxShadow>? shadow;
+  final Widget? prefixIcon;
   final Function() onTap;
 
   @override
@@ -47,16 +51,32 @@ class CustomButton extends StatelessWidget {
               width: width,
               padding: padding,
               decoration: BoxDecoration(
-                border: Border.all(color: borderColor ?? context.appColors.disabledBorder),
+                border: Border.all(color: borderColor ?? context.appColors.disabledBorder, width: borderWidth),
                 color: backgroundColor ?? context.appColors.secondary.shade50.withValues(alpha: 0.5),
                 borderRadius: BorderRadius.circular(borderRadius),
                 boxShadow: shadow ?? [],
               ),
-              child: Center(
-                child: Text(
-                  title,
-                  style: context.appPoppinsTextTheme.labelMedium!.copyWith(color: titleColor, fontSize: titleFontSize),
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (prefixIcon != null)
+                    Padding(
+                      padding: const EdgeInsets.only(right: 8.0),
+                      child: Center(
+                        child: SizedBox(
+                          width: 14,
+                          height: 14,
+                          child: Center(child: prefixIcon!),
+                        ),
+                      ),
+                    ),
+                  Text(
+                    title,
+                    style:
+                        context.appUrbanistTextTheme.bodyMedium!.copyWith(color: titleColor, fontSize: titleFontSize),
+                  ),
+                ],
               ),
             ),
           ),

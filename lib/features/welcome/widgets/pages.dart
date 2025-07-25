@@ -34,7 +34,7 @@ class Pages extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  CustomButton(
+                  AppTextButton(
                     title: 'Skip',
                     backgroundColor: context.appColors.transparent,
                     borderColor: context.appColors.transparent,
